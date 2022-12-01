@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "75621047372",
+    "project_id": "priotask-7736f",
+    "storage_bucket": "priotask-7736f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:75621047372:android:559f7395a04562afc868e9",
+        "android_client_info": {
+          "package_name": "com.priotask"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "75621047372-l9dlq4fqnphl6khc0ir9i8989hi3gtel.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUzBDA6Cg_0P6bkZOTeK-MLDzHZOQB-fI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "75621047372-l9dlq4fqnphl6khc0ir9i8989hi3gtel.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

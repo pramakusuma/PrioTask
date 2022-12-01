@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="@drawable/ellipse_full"
+    tools:context=".view.AddTask">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:id="@+id/buttonBack"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="0"
+            android:layout_gravity="center"
+            android:clickable="true"
+            app:srcCompat="@drawable/arrow_back" />
+
+        <TextView
+            android:id="@+id/addTask"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:text="Add Task" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        android:padding="20dp"
+        android:orientation="vertical">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:boxBackgroundMode="none">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputNama"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/tasklist"
+                android:textSize="12dp"
+                android:hint="Nama Tugas" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:boxBackgroundMode="none">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputDesc"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/tasklist"
+                android:textSize="12dp"
+                android:hint="Deskripsi Tugas" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:boxBackgroundMode="none">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputPrioritas"
+                android:layout_width="250dp"
+                android:layout_height="60dp"
+                android:background="@drawable/tasklist"
+                android:textSize="12dp"
+                android:hint="Prioritas" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <EditText
+            android:id="@+id/inputDate"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:background="@drawable/tasklist"
+            android:layout_marginTop="50dp"
+            android:ems="10"
+            android:textSize="12dp"
+            android:padding="10dp"
+            android:hint="Tenggat Waktu"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:padding="20dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonAddTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:background="@drawable/button"
+            android:text="Add Task" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

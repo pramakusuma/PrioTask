@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:gravity="center"
+    android:background="@drawable/tasklist"
+    android:padding="20dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="220dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nameTask"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tugas RPL" />
+
+            <TextView
+                android:id="@+id/descTask"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LK09P"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:textColor="@color/black"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_gravity="center">
+
+
+                <ImageView
+                    android:id="@+id/imageBell"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/notification" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/dateTask"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#5F33E1"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:text="22/11/2022" />
+
+                    <TextView
+                        android:id="@+id/timeTask"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#5F33E1"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:text="12:00 PM" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/prioTask"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/prioritas"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="#5F33E1"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:padding="2dp"
+                android:text="Penting" />
+
+
+        </LinearLayout>
+
+
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
