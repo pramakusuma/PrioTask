@@ -7,6 +7,7 @@ import android.text.method.PasswordTransformationMethod
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.priotask.R
 
 private lateinit var usernameSetting: TextView
@@ -23,9 +24,9 @@ class Settings : AppCompatActivity() {
 
         val bundle: Bundle? = intent.extras
 
-        val username = bundle?.get("username").toString()
-        val email = bundle?.get("email").toString()
-        val password = bundle?.get("password").toString()
+        var username = bundle?.get("username").toString()
+        var email = bundle?.get("email").toString()
+        var password = bundle?.get("password").toString()
 
         textUsername = findViewById(R.id.textUsername)
         textUsername.setText("Hello, $username")
@@ -61,8 +62,17 @@ class Settings : AppCompatActivity() {
         val buttonLogout = findViewById<Button>(R.id.buttonLogout)
         buttonLogout.setOnClickListener {
             intent = Intent(this, Login::class.java)
+            intent.putExtra("username", "")
+            intent.putExtra("email", "")
+            intent.putExtra("password", "")
             startActivity(intent)
 
+
+        }
+
+        val buttonBackup = findViewById<Button>(R.id.buttonBackup)
+        buttonBackup.setOnClickListener {
+            Toast.makeText(this, "Backup Success!", Toast.LENGTH_SHORT).show()
         }
 
     }

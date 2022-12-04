@@ -46,14 +46,14 @@ class MainActivity : AppCompatActivity() {
 
         listTaskAdapter = ListTaskAdapter(listTask)
         listRecyclerView = findViewById(R.id.listTask)
-        listRecyclerView.adapter = listTaskAdapter
-        listRecyclerView.layoutManager = LinearLayoutManager(this)
+//        listRecyclerView.adapter = listTaskAdapter
+//        listRecyclerView.layoutManager = LinearLayoutManager(this)
 
         val bundle: Bundle? = intent.extras
 
-        val username = bundle?.get("username").toString()
-        val email = bundle?.get("email").toString()
-        val password = bundle?.get("password").toString()
+        var username = bundle?.get("username").toString()
+        var email = bundle?.get("email").toString()
+        var password = bundle?.get("password").toString()
         textUsername = findViewById(R.id.username)
         textEmail = findViewById(R.id.email)
         textUsername.setText("Hello, $username")
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 //            listRecyclerView.layoutManager = LinearLayoutManager(this)
 //        }
 
-        getAllTask()
+        getAllTask(username)
 
         val buttonAddTaskMain = findViewById<Button>(R.id.buttonAddTaskMain)
         buttonAddTaskMain.setOnClickListener {
@@ -83,6 +83,16 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("email", email)
             intent.putExtra("password", password)
             startActivity(intent)
+
+        }
+
+        val buttonSortTime = findViewById<Button>(R.id.buttonSortTime)
+        buttonSortTime.setOnClickListener {
+
+        }
+
+        val buttonSortPriority = findViewById<Button>(R.id.buttonSortPriority)
+        buttonSortPriority.setOnClickListener {
 
         }
 
@@ -98,12 +108,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun getAllTask() {
-
-        val bundle: Bundle? = intent.extras
-
-        val username = bundle?.get("username").toString()
-        val email = bundle?.get("email").toString()
+    fun getAllTask(username: String) {
 
         val databaseTask = object: ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -111,15 +116,18 @@ class MainActivity : AppCompatActivity() {
                     textKosong.setText("")
                     listTask.clear()
                     dataSnapshot.children.forEach {
+                        val taskid = it.child("taskid").getValue().toString().toInt()
                         val name = it.child("nama").getValue().toString()
                         val date = it.child("date").getValue().toString()
                         val priority = it.child("priority").getValue().toString()
                         val note = it.child("note").getValue().toString()
-                        listTask.add(Task(username, name, date, priority, note))
+                        listTask.add(Task(taskid, username, name, date, priority, note))
                         Log.d("listtask", name.toString())
                     }
-
                     listRecyclerView.adapter = listTaskAdapter
+                    listRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+                } else {
+                    textKosong.setText("Anda Belum Memiliki Tugas")
                 }
             }
 

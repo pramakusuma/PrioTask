@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:background="@drawable/ellipse_full"
-    tools:context=".view.AddTask">
+    tools:context=".view.EditTask">
 
 
     <LinearLayout
@@ -28,7 +28,7 @@
             app:srcCompat="@drawable/arrow_back" />
 
         <TextView
-            android:id="@+id/addTask"
+            android:id="@+id/editTask"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:layout_weight="0"
@@ -37,7 +37,7 @@
             android:textStyle="bold"
             android:textSize="24sp"
             android:gravity="center"
-            android:text="Add Task" />
+            android:text="Edit Task" />
 
     </LinearLayout>
 
@@ -122,6 +122,7 @@
 
 
 
+
     </LinearLayout>
 
     <LinearLayout
@@ -132,13 +133,23 @@
         android:padding="20dp">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonAddTask"
+            android:id="@+id/buttonEditTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/white"
             android:background="@drawable/button"
-            android:text="Add Task" />
+            android:text="Edit Task" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonDone"
+            android:layout_width="120dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:backgroundTint="#00ab00"
+            android:textColor="@color/white"
+            android:text="Done" />
 
     </LinearLayout>
 

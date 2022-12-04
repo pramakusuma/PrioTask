@@ -3,6 +3,7 @@ package com.priotask.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -32,6 +33,12 @@ class Login : AppCompatActivity() {
         inputUsername = findViewById(R.id.inputUsername)
         inputPassword = findViewById(R.id.inputPassword)
 
+        val bundle: Bundle? = intent.extras
+
+        var username = ""
+        var password = ""
+
+
         textRegister = findViewById(R.id.textRegister)
         val buttonLogin = findViewById<Button>(R.id.buttonLogin)
 
@@ -42,8 +49,8 @@ class Login : AppCompatActivity() {
 
         buttonLogin.setOnClickListener {
 
-            var username: String = inputUsername.text.toString()
-            var password: String = inputPassword.text.toString()
+            username = inputUsername.text.toString()
+            password = inputPassword.text.toString()
 
             if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please insert the field!", Toast.LENGTH_SHORT).show()
@@ -57,8 +64,9 @@ class Login : AppCompatActivity() {
                             var getPassword: String? = dataSnapshot.child(username).child("password").getValue<String>()
                             if (getPassword.equals(password)) {
                                 Toast.makeText(this@Login, "Login Success!", Toast.LENGTH_SHORT).show()
-
+                                Log.d("usename active", username)
                                 //to main page
+//                                Toast.makeText(this@Login, username, Toast.LENGTH_SHORT).show()
                                 intent = Intent(this@Login, MainActivity::class.java)
                                 intent.putExtra("username", username)
                                 intent.putExtra("email", dataSnapshot.child(username).child("email").getValue<String>())

@@ -72,6 +72,46 @@
 
         </LinearLayout>
 
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonSortAll"
+                android:layout_width="95dp"
+                android:layout_height="35dp"
+                android:layout_weight="0"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/white"
+                android:background="@drawable/button"
+                android:text="All" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonSortTime"
+                android:layout_width="95dp"
+                android:layout_height="35dp"
+                android:layout_weight="0"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/white"
+                android:background="@drawable/button"
+                android:text="Time" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonSortPriority"
+                android:layout_width="95dp"
+                android:layout_height="35dp"
+                android:layout_weight="0"
+                android:textColor="@color/white"
+                android:background="@drawable/button"
+                android:text="Priority" />
+        </LinearLayout>
+
     </LinearLayout>
 
 
@@ -79,10 +119,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="480dp"
+        android:layout_height="400dp"
         android:orientation="vertical"
-        android:layout_marginTop="10dp"
-        android:padding="20dp">
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
 
         <TextView
             android:id="@+id/textKosong"

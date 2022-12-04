@@ -5,10 +5,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.util.Log
+import android.widget.*
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -18,19 +16,20 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.priotask.R
 import com.priotask.model.Task
+import java.util.*
 
 private lateinit var inputNama: TextInputEditText
 private lateinit var inputDesc: TextInputEditText
 private lateinit var inputPrioritas: TextInputEditText
-private lateinit var inputDate: EditText
-
-private lateinit var savedData: SharedPreferences
-private var DATA = "KeyData"
-private var NAMA = "KeyNama"
-private var DESKRIPSI = "KeyDesc"
-private var PRIORITAS = "KeyPrioritas"
-private var DATE = "KeyDate"
-private var taskId = 0
+//private lateinit var inputDate: DatePicker
+//
+//private lateinit var savedData: SharedPreferences
+//private var DATA = "KeyData"
+//private var NAMA = "KeyNama"
+//private var DESKRIPSI = "KeyDesc"
+//private var PRIORITAS = "KeyPrioritas"
+//private var DATE = "KeyDate"
+//private var taskId = 0
 
 private lateinit var database: DatabaseReference
 
@@ -41,17 +40,19 @@ class AddTask : AppCompatActivity() {
 
         database = Firebase.database.reference
 
+        var date = ""
+
         inputNama = findViewById(R.id.inputNama)
         inputDesc = findViewById(R.id.inputDesc)
         inputPrioritas = findViewById(R.id.inputPrioritas)
-        inputDate = findViewById(R.id.inputDate)
+        val inputDate = findViewById<DatePicker>(R.id.inputDate)
 
 //        savedData = getSharedPreferences(DATA, Context.MODE_PRIVATE)
 
         val bundle: Bundle? = intent.extras
-        val username = bundle?.get("username").toString()
-        val email = bundle?.get("email").toString()
-        val password = bundle?.get("password").toString()
+        var username = bundle?.get("username").toString()
+        var email = bundle?.get("email").toString()
+        var password = bundle?.get("password").toString()
 
         val buttonBack = findViewById<ImageView>(R.id.buttonBack)
         buttonBack.setOnClickListener{
@@ -68,9 +69,17 @@ class AddTask : AppCompatActivity() {
             var nama = inputNama.text.toString()
             var desc = inputDesc.text.toString()
             var prioritas = inputPrioritas.text.toString()
-            var date = inputDate.text.toString()
 
-            if (nama.isEmpty() || desc.isEmpty() || prioritas.isEmpty() || date.isEmpty()) {
+
+            inputDate.init(inputDate.year, inputDate.month, inputDate.dayOfMonth)
+            {   view, year, month, day ->
+                date = "$day/$month/$year"
+                Log.d("date", date)
+            }
+
+            date = "${inputDate.dayOfMonth}/${inputDate.month}/${inputDate.year}"
+
+            if (nama.isEmpty() || desc.isEmpty() || prioritas.isEmpty()) {
                 Toast.makeText(this, "Please insert the field!", Toast.LENGTH_SHORT).show()
             } else {
                 val databaseListener = object: ValueEventListener {
@@ -115,8 +124,9 @@ class AddTask : AppCompatActivity() {
         }
     }
 
-    fun addTask(taskId: Int, username: String, nama: String, desc: String, prioritas: String, date: String) {
-        val task = Task(username, nama, date, prioritas, desc)
-        database.child("task").child(taskId.toString()).setValue(task)
+    fun addTask(taskid: Int, username: String, nama: String, desc: String, prioritas: String, date: String) {
+        val task = Task(taskid, username, nama, date, prioritas, desc)
+        database.child("task").child(taskid.toString()).setValue(task)
     }
 }
+
