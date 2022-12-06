@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
 
         val buttonSortTime = findViewById<Button>(R.id.buttonSortTime)
         buttonSortTime.setOnClickListener {
-
+//            getTaskByTime()
         }
 
         val buttonSortPriority = findViewById<Button>(R.id.buttonSortPriority)
@@ -122,7 +122,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getTaskByTime() {
+        val databaseTask = object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    textKosong.setText("")
+                    listTask.clear()
+                    dataSnapshot.children.forEach {
+                        val taskid = it.child("taskid").getValue().toString().toInt()
+                        val name = it.child("nama").getValue().toString()
+                        val date = it.child("date").getValue().toString()
+                        val priority = it.child("priority").getValue().toString()
+                        val note = it.child("note").getValue().toString()
+                        listTask.add(Task(taskid, username, name, date, priority, note))
+                        Log.d("listtask", name.toString())
+                    }
+                    listRecyclerView.adapter = listTaskAdapter
+                    listRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+                } else {
+                    showEmpty()
+                }
+            }
 
+            override fun onCancelled(databaseError: DatabaseError) {
+
+            }
+        }
+
+        database.child("task").orderByChild("username").equalTo(username).orderByChild("date").addListenerForSingleValueEvent(databaseTask)
     }
 
     fun getTaskByPriority() {
