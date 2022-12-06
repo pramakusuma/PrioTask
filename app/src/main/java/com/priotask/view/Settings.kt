@@ -38,7 +38,7 @@ class Settings : AppCompatActivity() {
         var tasks = bundle?.get("tasks").toString()
 
         textUsername = findViewById(R.id.textUsername)
-        textUsername.setText("Hello, $username")
+        textUsername.setText("$username")
 
         usernameSetting = findViewById(R.id.usernameSetting)
         emailSetting = findViewById(R.id.emailSetting)

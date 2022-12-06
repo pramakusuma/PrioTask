@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                     listRecyclerView.adapter = listTaskAdapter
                     listRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
                 } else {
-                    textKosong.setText("Anda belum membuat pengingat task")
+                    showEmpty()
                 }
             }
 
@@ -121,12 +121,24 @@ class MainActivity : AppCompatActivity() {
         database.child("task").orderByChild("username").equalTo(username).addListenerForSingleValueEvent(databaseTask)
     }
 
+    fun getTaskByTime() {
+
+    }
+
+    fun getTaskByPriority() {
+
+    }
+
     fun showAddTask() {
         intent = Intent(this, AddTask::class.java)
         intent.putExtra("username", username)
         intent.putExtra("email", email)
         intent.putExtra("password", password)
         startActivity(intent)
+    }
+
+    fun showEmpty() {
+        textKosong.setText("Anda belum membuat pengingat task")
     }
 
     fun showSettings() {
