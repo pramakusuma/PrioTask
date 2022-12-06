@@ -78,7 +78,20 @@ class AddTask : AppCompatActivity() {
 
             inputDate.init(inputDate.year, inputDate.month, inputDate.dayOfMonth)
             {   view, year, month, day ->
-                date = "$day-$month-$year"
+                if (month < 10) {
+                    if (day < 10) {
+                        date = "0$day-0$month-$year"
+                    } else {
+                        date = "$day-0$month-$year"
+                    }
+                } else {
+                    if (day < 10) {
+                        date = "0$day-$month-$year"
+                    } else {
+                        date = "$day-$month-$year"
+                    }
+                }
+
                 Log.d("date", date)
             }
 

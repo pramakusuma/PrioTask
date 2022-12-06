@@ -52,7 +52,7 @@ class EditTask : AppCompatActivity() {
                 inputNama.setText(dataSnapshot.child("nama").getValue().toString())
                 inputDesc.setText(dataSnapshot.child("note").getValue().toString())
                 inputPrioritas.setText(dataSnapshot.child("priority").getValue().toString())
-                var dates = dataSnapshot.child("date").getValue().toString().split("/").toTypedArray()
+                var dates = dataSnapshot.child("date").getValue().toString().split("-").toTypedArray()
 //                inputDate.setText(dataSnapshot.child("date").getValue().toString())
                 inputDate.init(dates[2].toInt(), dates[1].toInt()-1, dates[0].toInt())
                 {   view, year, month, day ->
@@ -90,8 +90,24 @@ class EditTask : AppCompatActivity() {
 //                date = "$day/$month/$year"
 //                Log.d("date", date)
 //            }
+            var dateinput = inputDate.dayOfMonth
+            var monthinput = inputDate.month + 1
+            var yearinput = inputDate.year
+            if (monthinput < 10) {
+                if (dateinput < 10) {
+                    date = "0${dateinput}-0${monthinput}-${yearinput}"
+                } else {
+                    date = "${dateinput}-0${monthinput}-${yearinput}"
+                }
+            } else {
+                if (dateinput < 10) {
+                    date = "0${dateinput}-${monthinput}-${yearinput}"
+                } else {
+                    date = "${dateinput}-${monthinput}-${yearinput}"
+                }
+            }
 
-            date = "${inputDate.dayOfMonth}/${inputDate.month+1}/${inputDate.year}"
+//            date = "${inputDate.dayOfMonth}/${inputDate.month+1}/${inputDate.year}"
             Log.d("edittaskid", taskId.toString())
             if (nama.isEmpty() || desc.isEmpty() || prioritas.isEmpty()) {
                 Toast.makeText(this, "Mohon isi data secara lengkap", Toast.LENGTH_SHORT).show()

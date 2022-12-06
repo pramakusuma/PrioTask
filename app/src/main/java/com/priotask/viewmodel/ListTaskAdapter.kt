@@ -63,7 +63,7 @@ class ListTaskAdapter(var list: ArrayList<Task>): RecyclerView.Adapter<ListTaskA
                 val intent = Intent(it.context, EditTask::class.java)
 
                 intent.putExtra("username", list[position].username)
-                intent.putExtra("taskid", list[position].taskid.toString())
+                intent.putExtra("taskid", list[position].taskid)
                 intent.putExtra("email", email)
                 intent.putExtra("password", password)
                 it.context.startActivity(intent)
