@@ -18,6 +18,8 @@ import com.priotask.model.Task
 import java.util.*
 import kotlin.collections.ArrayList
 import com.priotask.viewmodel.ListTaskAdapter
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 private lateinit var textKosong: TextView
@@ -26,12 +28,15 @@ private lateinit var textEmail: TextView
 private lateinit var listRecyclerView: RecyclerView
 private lateinit var listTaskAdapter: ListTaskAdapter
 var listTask = ArrayList<Task>()
+var listDate = ArrayList<String>()
+var sortedTime: List<String> = listOf("")
 
 private lateinit var username: String
 private lateinit var email: String
 private lateinit var password: String
 
 private lateinit var database: DatabaseReference
+private lateinit var databaseTask: ValueEventListener
 
 
 class MainActivity : AppCompatActivity() {
@@ -72,9 +77,14 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        val buttonSortAll = findViewById<Button>(R.id.buttonSortAll)
+        buttonSortAll.setOnClickListener {
+            getAllTask(username)
+        }
+
         val buttonSortTime = findViewById<Button>(R.id.buttonSortTime)
         buttonSortTime.setOnClickListener {
-//            getTaskByTime()
+            getTaskByTime(username)
         }
 
         val buttonSortPriority = findViewById<Button>(R.id.buttonSortPriority)
@@ -92,13 +102,13 @@ class MainActivity : AppCompatActivity() {
 
     fun getAllTask(username: String) {
 
-        val databaseTask = object: ValueEventListener {
+        databaseTask = object: ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                     textKosong.setText("")
                     listTask.clear()
                     dataSnapshot.children.forEach {
-                        val taskid = it.child("taskid").getValue().toString().toInt()
+                        val taskid = it.child("taskid").getValue().toString()
                         val name = it.child("nama").getValue().toString()
                         val date = it.child("date").getValue().toString()
                         val priority = it.child("priority").getValue().toString()
@@ -121,21 +131,38 @@ class MainActivity : AppCompatActivity() {
         database.child("task").orderByChild("username").equalTo(username).addListenerForSingleValueEvent(databaseTask)
     }
 
-    fun getTaskByTime() {
+    fun getTaskByTime(username: String) {
+//        var sortedTime: List<String> = listOf("")
+        listTask.clear()
+        Log.d("sortTime", listTask.toString())
         val databaseTask = object: ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                     textKosong.setText("")
                     listTask.clear()
                     dataSnapshot.children.forEach {
-                        val taskid = it.child("taskid").getValue().toString().toInt()
-                        val name = it.child("nama").getValue().toString()
-                        val date = it.child("date").getValue().toString()
-                        val priority = it.child("priority").getValue().toString()
-                        val note = it.child("note").getValue().toString()
-                        listTask.add(Task(taskid, username, name, date, priority, note))
-                        Log.d("listtask", name.toString())
+                        if (it.child("username").getValue().toString().equals(username)) {
+                            val taskid = it.child("taskid").getValue().toString()
+                            val name = it.child("nama").getValue().toString()
+                            val date = it.child("date").getValue().toString()
+                            val priority = it.child("priority").getValue().toString()
+                            val note = it.child("note").getValue().toString()
+                            listDate.add(date)
+
+//                            listTask.add(Task(taskid, username, name, date, priority, note))
+//                            Log.d("listtask", name.toString())
+                        }
+
                     }
+                    val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+
+                    sortedTime = listDate.sortedBy {
+                        LocalDate.parse(it, dateTimeFormatter)
+                    }
+
+                    Log.d("sortedTime", listDate.toString())
+                    Log.d("sortedTime", sortedTime.toString())
+
                     listRecyclerView.adapter = listTaskAdapter
                     listRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
                 } else {
@@ -148,7 +175,43 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        database.child("task").orderByChild("username").equalTo(username).orderByChild("date").addListenerForSingleValueEvent(databaseTask)
+        database.child("task").orderByChild("date").addListenerForSingleValueEvent(databaseTask)
+
+
+        sortedTime.forEach{
+            val databaseTask = object: ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+
+                        dataSnapshot.children.forEach {
+                            if (it.child("username").getValue().toString().equals(username)) {
+                                val taskid = it.child("taskid").getValue().toString()
+                                val name = it.child("nama").getValue().toString()
+                                val date = it.child("date").getValue().toString()
+                                val priority = it.child("priority").getValue().toString()
+                                val note = it.child("note").getValue().toString()
+//                                listDate.add(date)
+
+                            listTask.add(Task(taskid, username, name, date, priority, note))
+
+                            }
+
+                        }
+
+                    } else {
+                        showEmpty()
+                    }
+                }
+                override fun onCancelled(databaseError: DatabaseError) {
+                }
+            }
+//            Log.d("sortedTime", sortedTime.toString())
+            database.child("task").child("date").equalTo(it).addListenerForSingleValueEvent(databaseTask)
+        }
+//        Log.d("sortedTime", listTask.toString())
+        listRecyclerView.adapter = listTaskAdapter
+        listRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+
     }
 
     fun getTaskByPriority() {

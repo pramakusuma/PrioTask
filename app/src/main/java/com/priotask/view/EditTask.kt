@@ -97,7 +97,7 @@ class EditTask : AppCompatActivity() {
                 Toast.makeText(this, "Mohon isi data secara lengkap", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Task berhasil diperbarui", Toast.LENGTH_SHORT).show()
-                editTask(taskid.toInt(), username, nama, desc, prioritas, date)
+                editTask(taskid, username, nama, desc, prioritas, date)
                 showPagePengunjung()
             }
 
@@ -112,7 +112,7 @@ class EditTask : AppCompatActivity() {
         }
     }
 
-    fun editTask(taskid: Int, username: String, nama: String, desc: String, prioritas: String, date: String) {
+    fun editTask(taskid: String, username: String, nama: String, desc: String, prioritas: String, date: String) {
         val task = Task(taskid, username, nama, date, prioritas, desc)
         Log.d("edittaskid", taskid.toString())
 

@@ -45,6 +45,7 @@ class AddTask : AppCompatActivity() {
         database = Firebase.database.reference
 
         var date = ""
+        var taskid = UUID.randomUUID().toString()
 
         inputNama = findViewById(R.id.inputNama)
         inputDesc = findViewById(R.id.inputDesc)
@@ -77,29 +78,34 @@ class AddTask : AppCompatActivity() {
 
             inputDate.init(inputDate.year, inputDate.month, inputDate.dayOfMonth)
             {   view, year, month, day ->
-                date = "$day/$month/$year"
+                date = "$day-$month-$year"
                 Log.d("date", date)
             }
 
-            date = "${inputDate.dayOfMonth}/${inputDate.month}/${inputDate.year}"
+            date = "${inputDate.dayOfMonth}/${inputDate.month+1}/${inputDate.year}"
 
             if (nama.isEmpty() || desc.isEmpty() || prioritas.isEmpty()) {
                 Toast.makeText(this, "Mohon isi data secara lengkap", Toast.LENGTH_SHORT).show()
             } else {
-                val databaseListener = object: ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        addTask(taskId, username, nama, desc, prioritas, date)
-                        Toast.makeText(this@AddTask, "Task added!", Toast.LENGTH_SHORT).show()
-                        showMainPage()
-                        taskId + 1
-                    }
-
-                    override fun onCancelled(databaseError: DatabaseError) {
-
-                    }
-                }
-
-                database.child("task").addListenerForSingleValueEvent(databaseListener)
+                addTask(taskid, username, nama, desc, prioritas, date)
+                Toast.makeText(this@AddTask, "Task berhasil dibuat", Toast.LENGTH_SHORT).show()
+                showMainPage()
+//                val databaseListener = object: ValueEventListener {
+//                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                        Log.d("taskid", taskId.toString())
+//                        addTask(taskId, username, nama, desc, prioritas, date)
+//                        Toast.makeText(this@AddTask, "Task berhasil dibuat", Toast.LENGTH_SHORT).show()
+//                        showMainPage()
+//                        taskId + 1
+//                        Log.d("taskid", taskId.toString())
+//                    }
+//
+//                    override fun onCancelled(databaseError: DatabaseError) {
+//
+//                    }
+//                }
+//
+//                database.child("task").addListenerForSingleValueEvent(databaseListener)
             }
 
 //            val saveData = savedData.edit()
@@ -123,13 +129,14 @@ class AddTask : AppCompatActivity() {
         }
     }
 
-    fun addTask(taskid: Int, username: String, nama: String, desc: String, prioritas: String, date: String) {
+
+    fun addTask(taskid: String, username: String, nama: String, desc: String, prioritas: String, date: String) {
         val task = Task(taskid, username, nama, date, prioritas, desc)
-        database.child("task").child(taskid.toString()).setValue(task)
+        database.child("task").child(taskid).setValue(task)
     }
 
     fun showMainPage() {
-        intent = Intent(this, MainActivity::class.java)
+        intent = Intent(this@AddTask, MainActivity::class.java)
         intent.putExtra("username", username)
         intent.putExtra("email", email)
         intent.putExtra("password", password)

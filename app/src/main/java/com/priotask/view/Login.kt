@@ -31,7 +31,7 @@ private lateinit var database: DatabaseReference
 class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen()
+//        installSplashScreen()
         setContentView(R.layout.login_page)
 
         database = Firebase.database.reference
