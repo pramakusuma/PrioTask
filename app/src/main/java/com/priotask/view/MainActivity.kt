@@ -27,6 +27,10 @@ private lateinit var listRecyclerView: RecyclerView
 private lateinit var listTaskAdapter: ListTaskAdapter
 var listTask = ArrayList<Task>()
 
+private lateinit var username: String
+private lateinit var email: String
+private lateinit var password: String
+
 private lateinit var database: DatabaseReference
 
 
@@ -46,43 +50,25 @@ class MainActivity : AppCompatActivity() {
 
         listTaskAdapter = ListTaskAdapter(listTask)
         listRecyclerView = findViewById(R.id.listTask)
-//        listRecyclerView.adapter = listTaskAdapter
-//        listRecyclerView.layoutManager = LinearLayoutManager(this)
 
         val bundle: Bundle? = intent.extras
 
-        var username = bundle?.get("username").toString()
-        var email = bundle?.get("email").toString()
-        var password = bundle?.get("password").toString()
+        username = bundle?.get("username").toString()
+        email = bundle?.get("email").toString()
+        password = bundle?.get("password").toString()
+
         textUsername = findViewById(R.id.username)
         textEmail = findViewById(R.id.email)
-        textUsername.setText("Hello, $username")
+        textUsername.setText("$username")
         textEmail.setText(email)
 
-//        val nama = bundle?.get("nama").toString()
-//        val deskripsi = bundle?.get("deskripsi").toString()
-//        val prioritas = bundle?.get("prioritas").toString()
-//        val date = bundle?.get("date").toString()
-//        if (nama == "null" && deskripsi == "null" && prioritas == "null" && date == "null") {
-//
-//        } else {
-//            textKosong.setText("")
-//
-////            listTask.add(Task(nama, date, prioritas, deskripsi))
-//            listRecyclerView.adapter = listTaskAdapter
-//            listRecyclerView.layoutManager = LinearLayoutManager(this)
-//        }
 
         getAllTask(username)
 
         val buttonAddTaskMain = findViewById<Button>(R.id.buttonAddTaskMain)
         buttonAddTaskMain.setOnClickListener {
             listRecyclerView.adapter = listTaskAdapter
-            intent = Intent(this@MainActivity, AddTask::class.java)
-            intent.putExtra("username", username)
-            intent.putExtra("email", email)
-            intent.putExtra("password", password)
-            startActivity(intent)
+            showAddTask()
 
         }
 
@@ -98,11 +84,7 @@ class MainActivity : AppCompatActivity() {
 
         val imageSettings = findViewById<ImageView>(R.id.settingsImage)
         imageSettings.setOnClickListener{
-            intent = Intent(this@MainActivity, Settings::class.java)
-            intent.putExtra("username", username)
-            intent.putExtra("email", email)
-            intent.putExtra("password", password)
-            startActivity(intent)
+            showSettings()
         }
 
 
@@ -127,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                     listRecyclerView.adapter = listTaskAdapter
                     listRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
                 } else {
-                    textKosong.setText("Anda Belum Memiliki Tugas")
+                    textKosong.setText("Anda belum membuat pengingat task")
                 }
             }
 
@@ -137,5 +119,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         database.child("task").orderByChild("username").equalTo(username).addListenerForSingleValueEvent(databaseTask)
+    }
+
+    fun showAddTask() {
+        intent = Intent(this, AddTask::class.java)
+        intent.putExtra("username", username)
+        intent.putExtra("email", email)
+        intent.putExtra("password", password)
+        startActivity(intent)
+    }
+
+    fun showSettings() {
+        intent = Intent(this, Settings::class.java)
+        intent.putExtra("username", username)
+        intent.putExtra("email", email)
+        intent.putExtra("password", password)
+        intent.putExtra("tasks", listTask.toString())
+        startActivity(intent)
     }
 }

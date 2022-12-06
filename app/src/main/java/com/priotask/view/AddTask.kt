@@ -31,6 +31,10 @@ private lateinit var inputPrioritas: TextInputEditText
 //private var DATE = "KeyDate"
 //private var taskId = 0
 
+private lateinit var username: String
+private lateinit var email: String
+private lateinit var password: String
+
 private lateinit var database: DatabaseReference
 
 class AddTask : AppCompatActivity() {
@@ -50,9 +54,9 @@ class AddTask : AppCompatActivity() {
 //        savedData = getSharedPreferences(DATA, Context.MODE_PRIVATE)
 
         val bundle: Bundle? = intent.extras
-        var username = bundle?.get("username").toString()
-        var email = bundle?.get("email").toString()
-        var password = bundle?.get("password").toString()
+        username = bundle?.get("username").toString()
+        email = bundle?.get("email").toString()
+        password = bundle?.get("password").toString()
 
         val buttonBack = findViewById<ImageView>(R.id.buttonBack)
         buttonBack.setOnClickListener{
@@ -80,18 +84,13 @@ class AddTask : AppCompatActivity() {
             date = "${inputDate.dayOfMonth}/${inputDate.month}/${inputDate.year}"
 
             if (nama.isEmpty() || desc.isEmpty() || prioritas.isEmpty()) {
-                Toast.makeText(this, "Please insert the field!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Mohon isi data secara lengkap", Toast.LENGTH_SHORT).show()
             } else {
                 val databaseListener = object: ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         addTask(taskId, username, nama, desc, prioritas, date)
                         Toast.makeText(this@AddTask, "Task added!", Toast.LENGTH_SHORT).show()
-
-                        intent = Intent(this@AddTask, MainActivity::class.java)
-                        intent.putExtra("username", username)
-                        intent.putExtra("email", email)
-                        intent.putExtra("password", password)
-                        startActivity(intent)
+                        showMainPage()
                         taskId + 1
                     }
 
@@ -127,6 +126,14 @@ class AddTask : AppCompatActivity() {
     fun addTask(taskid: Int, username: String, nama: String, desc: String, prioritas: String, date: String) {
         val task = Task(taskid, username, nama, date, prioritas, desc)
         database.child("task").child(taskid.toString()).setValue(task)
+    }
+
+    fun showMainPage() {
+        intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("username", username)
+        intent.putExtra("email", email)
+        intent.putExtra("password", password)
+        startActivity(intent)
     }
 }
 

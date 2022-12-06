@@ -42,7 +42,7 @@ class Register : AppCompatActivity() {
             var password: String = inputPassword.text.toString()
 
             if (email.isEmpty() || username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please insert the field!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Mohon isi secara lengkap", Toast.LENGTH_SHORT).show()
 
             } else {
 
@@ -50,15 +50,12 @@ class Register : AppCompatActivity() {
                 val databaseListener = object: ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.hasChild(username)) {
-                            Toast.makeText(this@Register, "User already registered!", Toast.LENGTH_SHORT).show()
+                            sendInvalid()
                         } else {
                             //add user
                             addUser(email, username, password)
-                            Toast.makeText(this@Register, "Register Success!", Toast.LENGTH_SHORT).show()
-
-                            //ke login page
-                            intent = Intent(this@Register, Login::class.java)
-                            startActivity(intent)
+                            Toast.makeText(this@Register, "Akun berhasil dibuat", Toast.LENGTH_SHORT).show()
+                            showLoginPage()
                         }
                     }
 
@@ -76,5 +73,15 @@ class Register : AppCompatActivity() {
         val user = User(email, username, password)
 
         database.child("users").child(username).setValue(user)
+    }
+
+    fun showLoginPage() {
+        //ke login page
+        intent = Intent(this@Register, Login::class.java)
+        startActivity(intent)
+    }
+
+    fun sendInvalid() {
+        Toast.makeText(this@Register, "User sudah terdaftar", Toast.LENGTH_SHORT).show()
     }
 }

@@ -23,6 +23,10 @@ private lateinit var inputDesc: TextInputEditText
 private lateinit var inputPrioritas: TextInputEditText
 private lateinit var inputDate: DatePicker
 
+private lateinit var username: String
+private lateinit var email: String
+private lateinit var password: String
+
 private lateinit var database: DatabaseReference
 
 class EditTask : AppCompatActivity() {
@@ -38,9 +42,9 @@ class EditTask : AppCompatActivity() {
         inputDate = findViewById(R.id.inputDate)
 
         val bundle: Bundle? = intent.extras
-        var username = bundle?.get("username").toString()
-        var email = bundle?.get("email").toString()
-        var password = bundle?.get("password").toString()
+        username = bundle?.get("username").toString()
+        email = bundle?.get("email").toString()
+        password = bundle?.get("password").toString()
         var taskid = bundle?.get("taskid").toString()
 
         val databaseTask = object: ValueEventListener {
@@ -89,14 +93,14 @@ class EditTask : AppCompatActivity() {
 
             date = "${inputDate.dayOfMonth}/${inputDate.month+1}/${inputDate.year}"
             Log.d("edittaskid", taskId.toString())
+            if (nama.isEmpty() || desc.isEmpty() || prioritas.isEmpty()) {
+                Toast.makeText(this, "Mohon isi data secara lengkap", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Task berhasil diperbarui", Toast.LENGTH_SHORT).show()
+                editTask(taskid.toInt(), username, nama, desc, prioritas, date)
+                showPagePengunjung()
+            }
 
-            Toast.makeText(this, "Task Edited!", Toast.LENGTH_SHORT).show()
-            editTask(taskid.toInt(), username, nama, desc, prioritas, date)
-            intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("username", username)
-            intent.putExtra("email", email)
-            intent.putExtra("password", password)
-            startActivity(intent)
         }
 
         val buttonDone = findViewById<Button>(R.id.buttonDone)
@@ -104,11 +108,7 @@ class EditTask : AppCompatActivity() {
             Toast.makeText(this, "Task Erased!", Toast.LENGTH_SHORT).show()
 
             deleteTask(taskid.toInt())
-            intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("username", username)
-            intent.putExtra("email", email)
-            intent.putExtra("password", password)
-            startActivity(intent)
+            showDeleteSuccess()
         }
     }
 
@@ -119,7 +119,23 @@ class EditTask : AppCompatActivity() {
         database.child("task").child(taskid.toString()).setValue(task)
     }
 
+    fun showPagePengunjung() {
+        intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("username", username)
+        intent.putExtra("email", email)
+        intent.putExtra("password", password)
+        startActivity(intent)
+    }
+
     fun deleteTask(taskid: Int) {
         database.child("task").child(taskid.toString()).removeValue()
+    }
+
+    fun showDeleteSuccess() {
+        intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("username", username)
+        intent.putExtra("email", email)
+        intent.putExtra("password", password)
+        startActivity(intent)
     }
 }

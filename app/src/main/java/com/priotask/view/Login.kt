@@ -21,6 +21,10 @@ private lateinit var inputUsername: TextInputEditText
 private lateinit var inputPassword: TextInputEditText
 private lateinit var textRegister: TextView
 
+private lateinit var username: String
+private lateinit var emailuser: String
+private lateinit var passworduser: String
+
 private lateinit var database: DatabaseReference
 
 class Login : AppCompatActivity() {
@@ -35,7 +39,7 @@ class Login : AppCompatActivity() {
 
         val bundle: Bundle? = intent.extras
 
-        var username = ""
+        username = ""
         var password = ""
 
 
@@ -48,51 +52,63 @@ class Login : AppCompatActivity() {
         }
 
         buttonLogin.setOnClickListener {
-
             username = inputUsername.text.toString()
             password = inputPassword.text.toString()
-
-            if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please insert the field!", Toast.LENGTH_SHORT).show()
-
-            } else {
-
-                val databaseListener = object: ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        if (dataSnapshot.hasChild(username)) {
-                            //cek password
-                            var getPassword: String? = dataSnapshot.child(username).child("password").getValue<String>()
-                            if (getPassword.equals(password)) {
-                                Toast.makeText(this@Login, "Login Success!", Toast.LENGTH_SHORT).show()
-                                Log.d("usename active", username)
-                                //to main page
-//                                Toast.makeText(this@Login, username, Toast.LENGTH_SHORT).show()
-                                intent = Intent(this@Login, MainActivity::class.java)
-                                intent.putExtra("username", username)
-                                intent.putExtra("email", dataSnapshot.child(username).child("email").getValue<String>())
-                                intent.putExtra("password", dataSnapshot.child(username).child("password").getValue<String>())
-                                startActivity(intent)
-                            } else {
-                                Toast.makeText(this@Login, "Password incorrect!", Toast.LENGTH_SHORT).show()
-                            }
+            login(username, password)
+        }
 
 
+    }
+
+    fun login(username: String, password: String) {
+
+        if (username.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Username/password wajib diisi", Toast.LENGTH_SHORT).show()
+
+        } else {
+
+            val databaseListener = object: ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.hasChild(username)) {
+                        //cek password
+                        var getPassword: String? = dataSnapshot.child(username).child("password").getValue<String>()
+                        if (getPassword.equals(password)) {
+                            Toast.makeText(this@Login, "Login Success!", Toast.LENGTH_SHORT).show()
+                            Log.d("usename active", username)
+                            emailuser = dataSnapshot.child(username).child("email").getValue<String>().toString()
+                            passworduser = dataSnapshot.child(username).child("password").getValue<String>().toString()
+                            showMainPage()
                         } else {
-                            Toast.makeText(this@Login, "User not registered!", Toast.LENGTH_SHORT).show()
-
+                            sendInvalid()
                         }
-                    }
 
-                    override fun onCancelled(databaseError: DatabaseError) {
+
+                    } else {
+                        Toast.makeText(this@Login, "User belum terdaftar", Toast.LENGTH_SHORT).show()
 
                     }
                 }
 
-                database.child("users").addListenerForSingleValueEvent(databaseListener)
+                override fun onCancelled(databaseError: DatabaseError) {
+
+                }
             }
 
+            database.child("users").addListenerForSingleValueEvent(databaseListener)
         }
+    }
 
+    fun sendInvalid() {
+        Toast.makeText(this@Login, "Username/password tidak valid", Toast.LENGTH_SHORT).show()
+    }
 
+    fun showMainPage() {
+        //to main page
+//                                Toast.makeText(this@Login, username, Toast.LENGTH_SHORT).show()
+        intent = Intent(this@Login, MainActivity::class.java)
+        intent.putExtra("username", username)
+        intent.putExtra("email", emailuser)
+        intent.putExtra("password", passworduser)
+        startActivity(intent)
     }
 }

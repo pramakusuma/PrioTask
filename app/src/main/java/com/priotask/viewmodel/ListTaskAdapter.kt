@@ -40,32 +40,7 @@ class ListTaskAdapter(var list: ArrayList<Task>): RecyclerView.Adapter<ListTaskA
             findViewById<TextView>(R.id.prioTask).text = list[position].priority
         }
         holder.itemView.setOnClickListener{
-//            toEdit()
-            val database : DatabaseReference = Firebase.database.reference
-            var email= ""
-            var password= ""
-
-            val databaseTask = object: ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    email = dataSnapshot.child("email").getValue().toString()
-                    password = dataSnapshot.child("password").getValue().toString()
-                    Log.d("email", email)
-                    val intent = Intent(it.context, EditTask::class.java)
-
-                    intent.putExtra("username", list[position].username)
-                    intent.putExtra("taskid", list[position].taskid.toString())
-                    intent.putExtra("email", email)
-                    intent.putExtra("password", password)
-                    it.context.startActivity(intent)
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-
-                }
-            }
-
-            database.child("users").child(list[position].username).addListenerForSingleValueEvent(databaseTask)
-
+            showEditForm(it, position)
         }
     }
 
@@ -75,8 +50,32 @@ class ListTaskAdapter(var list: ArrayList<Task>): RecyclerView.Adapter<ListTaskA
         return list.size
     }
 
-//    fun toEdit() {
-//        this.startActivity(Intent(, EditTask::class.java))
-//    }
+    fun showEditForm(it: View, position: Int) {
+        val database : DatabaseReference = Firebase.database.reference
+        var email= ""
+        var password= ""
+
+        val databaseTask = object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                email = dataSnapshot.child("email").getValue().toString()
+                password = dataSnapshot.child("password").getValue().toString()
+                Log.d("email", email)
+                val intent = Intent(it.context, EditTask::class.java)
+
+                intent.putExtra("username", list[position].username)
+                intent.putExtra("taskid", list[position].taskid.toString())
+                intent.putExtra("email", email)
+                intent.putExtra("password", password)
+                it.context.startActivity(intent)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+
+            }
+        }
+
+        database.child("users").child(list[position].username).addListenerForSingleValueEvent(databaseTask)
+
+    }
 
 }
