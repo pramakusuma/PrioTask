@@ -103,42 +103,9 @@ class AddTask : AppCompatActivity() {
                 addTask(taskid, username, nama, desc, prioritas, date)
                 Toast.makeText(this@AddTask, "Task berhasil dibuat", Toast.LENGTH_SHORT).show()
                 showMainPage()
-//                val databaseListener = object: ValueEventListener {
-//                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                        Log.d("taskid", taskId.toString())
-//                        addTask(taskId, username, nama, desc, prioritas, date)
-//                        Toast.makeText(this@AddTask, "Task berhasil dibuat", Toast.LENGTH_SHORT).show()
-//                        showMainPage()
-//                        taskId + 1
-//                        Log.d("taskid", taskId.toString())
-//                    }
 //
-//                    override fun onCancelled(databaseError: DatabaseError) {
-//
-//                    }
-//                }
-//
-//                database.child("task").addListenerForSingleValueEvent(databaseListener)
             }
 
-//            val saveData = savedData.edit()
-//            saveData.putString(NAMA, inputNama.text.toString())
-//            saveData.putString(DESKRIPSI, inputDesc.text.toString())
-//            saveData.putString(PRIORITAS, inputPrioritas.text.toString())
-//            saveData.putString(DATE, inputDate.text.toString())
-//            saveData.apply()
-//
-//            intent = Intent(this, MainActivity::class.java)
-//            intent.putExtra("nama", inputNama.text.toString())
-//            intent.putExtra("deskripsi", inputDesc.text.toString())
-//            intent.putExtra("prioritas", inputPrioritas.text.toString())
-//            intent.putExtra("date", inputDate.text.toString())
-//            startActivity(intent)
-//
-//            inputNama.setText("")
-//            inputDesc.setText("")
-//            inputPrioritas.setText("")
-//            inputDate.setText("")
         }
     }
 
