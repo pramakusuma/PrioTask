@@ -132,8 +132,8 @@ class MainActivity : AppCompatActivity() {
 
         database.child("task").orderByChild("username").equalTo(username).addListenerForSingleValueEvent(databaseTask)
 
-        listRecyclerView.adapter = listTaskAdapter
-        listRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+//        listRecyclerView.adapter = listTaskAdapter
+//        listRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
     }
 
     fun getTaskByTime(username: String) {

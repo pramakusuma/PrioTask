@@ -78,24 +78,39 @@ class AddTask : AppCompatActivity() {
 
             inputDate.init(inputDate.year, inputDate.month, inputDate.dayOfMonth)
             {   view, year, month, day ->
-                if (month < 10) {
-                    if (day < 10) {
-                        date = "0$day-0$month-$year"
-                    } else {
-                        date = "$day-0$month-$year"
-                    }
-                } else {
-                    if (day < 10) {
-                        date = "0$day-$month-$year"
-                    } else {
-                        date = "$day-$month-$year"
-                    }
-                }
+//                if (month < 10) {
+//                    if (day < 10) {
+//                        date = "0$day-0$month-$year"
+//                    } else {
+//                        date = "$day-0$month-$year"
+//                    }
+//                } else {
+//                    if (day < 10) {
+//                        date = "0$day-$month-$year"
+//                    } else {
+//                        date = "$day-$month-$year"
+//                    }
+//                }
 
                 Log.d("date", date)
             }
-
-            date = "${inputDate.dayOfMonth}/${inputDate.month+1}/${inputDate.year}"
+            var dateinput = inputDate.dayOfMonth
+            var monthinput = inputDate.month + 1
+            var yearinput = inputDate.year
+            if (monthinput < 10) {
+                if (dateinput < 10) {
+                    date = "0${dateinput}-0${monthinput}-${yearinput}"
+                } else {
+                    date = "${dateinput}-0${monthinput}-${yearinput}"
+                }
+            } else {
+                if (dateinput < 10) {
+                    date = "0${dateinput}-${monthinput}-${yearinput}"
+                } else {
+                    date = "${dateinput}-${monthinput}-${yearinput}"
+                }
+            }
+//            date = "${inputDate.dayOfMonth}/${inputDate.month+1}/${inputDate.year}"
 
             if (nama.isEmpty() || desc.isEmpty() || prioritas.isEmpty()) {
                 Toast.makeText(this, "Mohon isi data secara lengkap", Toast.LENGTH_SHORT).show()

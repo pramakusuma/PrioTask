@@ -123,7 +123,7 @@ class EditTask : AppCompatActivity() {
         buttonDone.setOnClickListener {
             Toast.makeText(this, "Task Erased!", Toast.LENGTH_SHORT).show()
 
-            deleteTask(taskid.toInt())
+            deleteTask(taskid)
             showDeleteSuccess()
         }
     }
@@ -143,8 +143,8 @@ class EditTask : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun deleteTask(taskid: Int) {
-        database.child("task").child(taskid.toString()).removeValue()
+    fun deleteTask(taskid: String) {
+        database.child("task").child(taskid).removeValue()
     }
 
     fun showDeleteSuccess() {
