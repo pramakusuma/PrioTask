@@ -3,7 +3,7 @@
     <!-- Splash Screen Theme. -->
     <style name="Theme.AppSplash" parent="Theme.PrioTask">
         <item name="windowSplashScreenBackground">@color/white</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/person_sit</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/logo_round</item>
         <item name="windowSplashScreenAnimationDuration">300</item>
         <item name="postSplashScreenTheme">@style/Theme.PrioTask</item>
 

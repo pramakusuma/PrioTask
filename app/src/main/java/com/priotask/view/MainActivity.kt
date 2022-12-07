@@ -150,10 +150,13 @@ class MainActivity : AppCompatActivity() {
                     dataSnapshot.children.forEach {
                         if (it.child("username").getValue().toString().equals(username)) {
                             val date = it.child("date").getValue().toString()
-                            listDate.add(date)
+                            if(listDate.contains(date)) {
 
+                            } else {
+                                listDate.add(date)
+
+                            }
                         }
-
                     }
                     val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
